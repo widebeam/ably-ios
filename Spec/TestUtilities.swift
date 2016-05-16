@@ -631,7 +631,7 @@ class TestProxyTransport: ARTWebSocketTransport {
     override func connect() {
         if let network = TestProxyTransport.network {
             var hook: AspectToken?
-            hook = SRWebSocket.testSuite_replaceClassMethod(#selector(SRWebSocket.open)) {
+            hook = SRWebSocket.testSuite_replaceClassMethod("open") {
                 if TestProxyTransport.network == nil {
                     return
                 }

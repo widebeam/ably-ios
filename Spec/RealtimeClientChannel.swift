@@ -2290,7 +2290,7 @@ class RealtimeClientChannel: QuickSpec {
                         attachedMessage.action = .Attached
                         attachedMessage.channel = "test"
 
-                        hook = channel.testSuite_injectIntoMethodAfter(#selector(channel.onChannelMessage(_:))) {
+                        hook = channel.testSuite_injectIntoMethodAfter("onChannelMessage:") {
                             done()
                         }
 

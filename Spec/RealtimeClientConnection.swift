@@ -2016,8 +2016,8 @@ class RealtimeClientConnection: QuickSpec {
                             client.onDisconnected()
                             client.connection.once(.Connected) { _ in
                                 resumed = true
-                                channel.testSuite_injectIntoMethodBefore(#selector(channel.sendQueuedMessages)) {
-                                    channel.testSuite_getArgumentFrom(#selector(channel.sendMessage(_:callback:)), atIndex: 0) { arg0 in
+                                channel.testSuite_injectIntoMethodBefore("sendQueuedMessages") {
+                                    channel.testSuite_getArgumentFrom("sendMessage:callback:", atIndex: 0) { arg0 in
                                         sentQueuedMessage = (arg0 as? ARTProtocolMessage)?.messages?[0]
                                     }
                                 }

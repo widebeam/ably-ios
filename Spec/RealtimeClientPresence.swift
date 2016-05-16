@@ -1649,7 +1649,7 @@ class RealtimeClientPresence: QuickSpec {
                     let channel = client.channels.get("test")
 
                     var presenceQueryWasCreated = false
-                    let hook = ARTRealtimePresenceQuery.testSuite_injectIntoClassMethod(#selector(ARTRealtimePresenceQuery.init as () -> ARTRealtimePresenceQuery)) { // Default initialiser: referring to the no-parameter variant of `init` as one of several overloaded methods requires an explicit `as <signature>` cast
+                    let hook = ARTRealtimePresenceQuery.testSuite_injectIntoClassMethod("init") { // Default initialiser: referring to the no-parameter variant of `init` as one of several overloaded methods requires an explicit `as <signature>` cast
                         presenceQueryWasCreated = true
                     }
                     defer { hook?.remove() }
@@ -2079,13 +2079,13 @@ class RealtimeClientPresence: QuickSpec {
                     let expectedData = ["test":1]
 
                     var encodeNumberOfCalls = 0
-                    let hookEncode = channel.dataEncoder.testSuite_injectIntoMethodAfter(#selector(ARTDataEncoder.encode(_:))) {
+                    let hookEncode = channel.dataEncoder.testSuite_injectIntoMethodAfter("encode:") {
                         encodeNumberOfCalls += 1
                     }
                     defer { hookEncode.remove() }
 
                     var decodeNumberOfCalls = 0
-                    let hookDecode = channel.dataEncoder.testSuite_injectIntoMethodAfter(#selector(ARTDataEncoder.decode(_:encoding:))) {
+                    let hookDecode = channel.dataEncoder.testSuite_injectIntoMethodAfter("decode:encoding:") {
                         decodeNumberOfCalls += 1
                     }
                     defer { hookDecode.remove() }

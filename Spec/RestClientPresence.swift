@@ -476,7 +476,7 @@ class RestClientPresence: QuickSpec {
 
                 let expectedData = ["test":1]
                 var decodeNumberOfCalls = 0
-                let hook = ARTBaseMessage.testSuite_injectIntoClassMethod(#selector(ARTBaseMessage.decodeWithEncoder(_:error:))) {
+                let hook = ARTBaseMessage.testSuite_injectIntoClassMethod("decodeWithEncoder:error:") {
                     decodeNumberOfCalls += 1
                 }
                 defer { hook?.remove() }

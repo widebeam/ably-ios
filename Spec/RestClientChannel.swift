@@ -238,7 +238,7 @@ class RestClientChannel: QuickSpec {
                     let channel = client.channels.get("test")
 
                     // Reject before the message is sent to the server
-                    let hook = channel.testSuite_injectIntoMethodBefore(#selector(ARTChannel.publish(_:callback:))) {
+                    let hook = channel.testSuite_injectIntoMethodBefore("publish:callback:") {
                         testHTTPExecutor.http = nil
                     }
 
@@ -271,7 +271,7 @@ class RestClientChannel: QuickSpec {
                     let channel = client.channels.get("test")
 
                     // Reject before the message is sent to the server
-                    channel.testSuite_injectIntoMethodBefore(#selector(ARTChannel.publish(_:callback:))) {
+                    channel.testSuite_injectIntoMethodBefore("publish:callback:") {
                         testHTTPExecutor.http = nil
                     }
 
