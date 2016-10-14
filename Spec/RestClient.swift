@@ -646,6 +646,39 @@ class RestClient: QuickSpec {
 
                     expect(NSRegularExpression.match(capturedURLs[1], pattern: "//[f-j].ably-realtime.com")).to(beTrue())
                 }
+
+                // RSC15b
+                it("applies when ClientOptions#fallbackHostsUseDefault is true") {
+                    let options = ARTClientOptions(key: "xxxx:xxxx")
+                    options.fallbackHostsUseDefault = true
+                    let client = ARTRest(options: options)
+                    client.httpExecutor = testHTTPExecutor
+                    testHTTPExecutor.http = MockHTTP(network: .HostUnreachable)
+                    let channel = client.channels.get("test")
+
+                    var capturedURLs = [String]()
+                    testHTTPExecutor.afterRequest = { request, callback in
+                        capturedURLs.append(request.URL!.absoluteString)
+                        if testHTTPExecutor.requests.count == 2 {
+                            // Stop
+                            testHTTPExecutor.http = nil
+                            callback!(nil, nil, nil)
+                        }
+                    }
+
+                    waitUntil(timeout: testTimeout) { done in
+                        channel.publish(nil, data: "nil") { _ in
+                            done()
+                        }
+                    }
+
+                    expect(testHTTPExecutor.requests).to(haveCount(2))
+                    if testHTTPExecutor.requests.count < 2 {
+                        return
+                    }
+
+                    expect(NSRegularExpression.match(capturedURLs[1], pattern: "//[a-e].ably-realtime.com")).to(beTrue())
+                }
                 
                 // RSC15b
                 it("won't apply fallback hosts if ClientOptions#fallbackHosts array is empty") {
